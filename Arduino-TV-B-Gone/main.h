@@ -1,6 +1,7 @@
 #include <avr/pgmspace.h>
 
 #define LED          PB2
+#define MOTOR        PB1
 #define IRLED        PB0
 
 // We are selecting the EU Power Codes
