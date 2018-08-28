@@ -74,7 +74,7 @@ The hardware for this project is very simple:
        pin 5   PB0 - OC1A - IR emitters, through a '2907 PNP driver that connects 
                to 4 (or more!) PN2222A drivers, with 1000 ohm base resistor 
                and also connects to programming circuitry
-       pin 6   PB1 - Not used
+       pin 6   PB1 - Motor
        pin 7   PB2 - visible LED, and also connects to programming circuitry
        pin 8   +3-5v DC (such as 2-4 AA batteries!)
     See the schematic for more details.
@@ -205,8 +205,10 @@ int main(void) {
 
   WDTCR = 0;                     // disable WDT while we setup
 
-  DDRB = _BV(LED) | _BV(IRLED);   // set the visible and IR LED pins to outputs
+  DDRB = _BV(LED) | _BV(IRLED) | _BV(MOTOR);   // set the visible and IR LED and motor pins to outputs
+
   PORTB = _BV(IRLED);             // turn off the IR LED
+  PORTB &= ~_BV(MOTOR); // turn on motor
 
   // check the reset flags
   if (i & _BV(BORF)) {    // Brownout
@@ -228,6 +230,9 @@ int main(void) {
   // Starting execution loop
   delay_ten_us(25000);
 
+  // turn off motor
+  PORTB |= _BV(MOTOR);           
+     
   // We are done, no need for a watchdog timer anymore
   wdt_disable();
   
