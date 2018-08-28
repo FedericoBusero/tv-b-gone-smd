@@ -71,10 +71,11 @@ The hardware for this project is very simple:
        pin 2   one pin of ceramic resonator MUST be 8.0 mhz
        pin 3   other pin of ceramic resonator
        pin 4   ground
-       pin 5   OC1A - IR emitters, through a '2907 PNP driver that connects 
+       pin 5   PB0 - OC1A - IR emitters, through a '2907 PNP driver that connects 
                to 4 (or more!) PN2222A drivers, with 1000 ohm base resistor 
                and also connects to programming circuitry
-       pin 7   PB0 - visible LED, and also connects to programming circuitry
+       pin 6   PB1 - Not used
+       pin 7   PB2 - visible LED, and also connects to programming circuitry
        pin 8   +3-5v DC (such as 2-4 AA batteries!)
     See the schematic for more details.
 
@@ -217,8 +218,13 @@ int main(void) {
   delay_ten_us(5000);            // Let everything settle for a bit
   
   // Tell the user what region we're in  - 3 is US 4 is EU
+#ifdef US_CODES
   quickflashLEDx(3);
-  
+#endif
+#ifdef EU_CODES
+  quickflashLEDx(4);
+#endif
+
   // Starting execution loop
   delay_ten_us(25000);
 
@@ -368,4 +374,3 @@ void flashslowLEDx( uint8_t num_blinks )
       delay_ten_us(50000);     // 500 millisec delay
     }
 }
-
